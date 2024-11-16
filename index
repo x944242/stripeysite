@@ -78,7 +78,7 @@
 
     <script>
         // Stripe publishable key (replace with your own)
-        const stripe = Stripe("your-publishable-key-here");
+        const stripe = Stripe("pk_live_51PPPr204b8w8QaGsbiirgUgUTv90PCGh0Q73MYFOLZgGcQU8IjahWwfNR8TxK2SneMUF8Bu4hNfUF94Ev8QRUrnu00xIE2Dfx4");
 
         // Price definitions
         const prices = {
