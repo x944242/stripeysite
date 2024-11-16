@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honey Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #663300;
+        }
+        .product {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .product label {
+            font-weight: bold;
+        }
+        .product input {
+            width: 50px;
+            text-align: center;
+        }
+        .total {
+            text-align: right;
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            background-color: #ffcc33;
+            color: #663300;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ffdd55;
+        }
+    </style>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Honey Store</h1>
+       
+        <div class="product">
+            <label for="acacia">Acacia Honey (£10 each):</label>
+            <input type="number" id="acacia" min="0" value="0">
+        </div>
+
+        <div class="product">
+            <label for="wildflower">Wildflower Honey (£12 each):</label>
+            <input type="number" id="wildflower" min="0" value="0">
+        </div>
+
+        <div class="product">
+            <label for="heather">Heather Honey (£15 each):</label>
+            <input type="number" id="heather" min="0" value="0">
+        </div>
+
+        <div class="total">Total: £<span id="total">0</span></div>
+
+        <button id="checkout-button">Checkout</button>
+    </div>
+
+    <script>
+        // Stripe publishable key (replace with your own)
+        const stripe = Stripe("your-publishable-key-here");
+
+        // Price definitions
+        const prices = {
+            acacia: 10,
+            wildflower: 12,
+            heather: 15
+        };
+
+        // Elements
+        const acaciaInput = document.getElementById("acacia");
+        const wildflowerInput = document.getElementById("wildflower");
+        const heatherInput = document.getElementById("heather");
+        const totalElement = document.getElementById("total");
+        const checkoutButton = document.getElementById("checkout-button");
+
+        // Function to calculate total
+        function calculateTotal() {
+            const acaciaQty = parseInt(acaciaInput.value) || 0;
+            const wildflowerQty = parseInt(wildflowerInput.value) || 0;
+            const heatherQty = parseInt(heatherInput.value) || 0;
+
+            const total =
+                acaciaQty * prices.acacia +
+                wildflowerQty * prices.wildflower +
+                heatherQty * prices.heather;
+
+            totalElement.textContent = total.toFixed(2);
+        }
+
+        // Listen for changes in quantity inputs
+        acaciaInput.addEventListener("input", calculateTotal);
+        wildflowerInput.addEventListener("input", calculateTotal);
+        heatherInput.addEventListener("input", calculateTotal);
+
+        // Handle checkout button click
+        checkoutButton.addEventListener("click", async () => {
+            const acaciaQty = parseInt(acaciaInput.value) || 0;
+            const wildflowerQty = parseInt(wildflowerInput.value) || 0;
+            const heatherQty = parseInt(heatherInput.value) || 0;
+
+            const lineItems = [];
+
+            if (acaciaQty > 0) {
+                lineItems.push({
+                    price: "price_ID_for_acacia", // Replace with your Stripe Price ID for Acacia Honey
+                    quantity: acaciaQty
+                });
+            }
+
+            if (wildflowerQty > 0) {
+                lineItems.push({
+                    price: "price_ID_for_wildflower", // Replace with your Stripe Price ID for Wildflower Honey
+                    quantity: wildflowerQty
+                });
+            }
+
+            if (heatherQty > 0) {
+                lineItems.push({
+                    price: "price_ID_for_heather", // Replace with your Stripe Price ID for Heather Honey
+                    quantity: heatherQty
+                });
+            }
+
+            if (lineItems.length === 0) {
+                alert("Please select at least one item.");
+                return;
+            }
+
+            // Send line items to backend (mocked here for frontend-only setup)
+            const response = await fetch("/create-checkout-session", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ lineItems })
+            });
+
+            const { sessionId } = await response.json();
+
+            // Redirect to Stripe Checkout
+            stripe.redirectToCheckout({ sessionId });
+        });
+    </script>
+</body>
+</html>
