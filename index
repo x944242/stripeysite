@@ -123,7 +123,7 @@
 
             if (acaciaQty > 0) {
                 lineItems.push({
-                    price: "price_ID_for_acacia", // Replace with your Stripe Price ID for Acacia Honey
+                    price: "prod_REL3Ik0qbcwz5W", // Replace with your Stripe Price ID for Acacia Honey
                     quantity: acaciaQty
                 });
             }
