@@ -1,14 +1,14 @@
+
+
 // JavaScript to handle the calculation
 document.getElementById('calculate-button').addEventListener('click', function() {
-  const userInput = parseFloat(document.getElementById('user-input').value) || 0;
+  const jarCount = parseInt(document.getElementById('jar-count').value) || 0; // Get number of jars
+  const pricePerJar = 6.50; // Price of one jar
+  const totalAmount = jarCount * pricePerJar; // Calculate total price
+
   const totalAmountElement = document.getElementById('total-amount');
-
-  // Update the total amount displayed
-  totalAmountElement.textContent = userInput.toFixed(2);
+  totalAmountElement.textContent = totalAmount.toFixed(2); // Update display
 });
-
-
-
 
 
 
