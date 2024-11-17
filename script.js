@@ -1,4 +1,21 @@
-    <script>
+// JavaScript to handle the calculation
+document.getElementById('calculate-button').addEventListener('click', function() {
+  const userInput = parseFloat(document.getElementById('user-input').value) || 0;
+  const totalAmountElement = document.getElementById('total-amount');
+
+  // Update the total amount displayed
+  totalAmountElement.textContent = userInput.toFixed(2);
+});
+
+
+
+
+
+
+
+
+
+<script>
         // Stripe publishable key (replace with your own)
         const stripe = Stripe("your-publishable-key-here");
 
