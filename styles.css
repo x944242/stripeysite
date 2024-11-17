@@ -1,0 +1,47 @@
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #663300;
+        }
+        .product {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .product label {
+            font-weight: bold;
+        }
+        .product input {
+            width: 50px;
+            text-align: center;
+        }
+        .total {
+            text-align: right;
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            background-color: #ffcc33;
+            color: #663300;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ffdd55;
+        }
+
+   
